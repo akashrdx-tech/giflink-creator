@@ -133,7 +133,11 @@ function Index() {
       const res = await uploadImage({
         data: { base64, name: file.name, expiration },
       });
-      setResult(res);
+      if (res.ok) {
+        setResult(res.result);
+      } else {
+        setError(res.error);
+      }
     } catch (e) {
       setError(e instanceof Error ? e.message : "Upload failed. Dobara try karein.");
     } finally {

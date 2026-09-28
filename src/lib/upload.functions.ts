@@ -85,7 +85,8 @@ export const uploadImage = createServerFn({ method: "POST" })
       size: d.size,
       width: d.width,
       height: d.height,
-      mime: d.image?.mime ?? "image/*",
-      expiration: d.expiration,
+        mime: d.image?.mime ?? "image/*",
+        expiration: d.expiration,
+      },
     };
   });
