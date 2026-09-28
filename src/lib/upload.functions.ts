@@ -21,9 +21,13 @@ export type ImgbbResult = {
   expiration: string;
 };
 
+export type UploadResponse =
+  | { ok: true; result: ImgbbResult }
+  | { ok: false; error: string };
+
 export const uploadImage = createServerFn({ method: "POST" })
   .inputValidator((data) => uploadSchema.parse(data))
-  .handler(async ({ data }): Promise<ImgbbResult> => {
+  .handler(async ({ data }): Promise<UploadResponse> => {
     const apiKey =
       process.env["IMGBB_API_KEY"] ?? "840acce87cd1b8c78bb99e986538265b";
 
@@ -60,13 +64,18 @@ export const uploadImage = createServerFn({ method: "POST" })
     };
 
     if (!res.ok || !json.success || !json.data) {
-      throw new Error(
-        json.error?.message ?? `Upload failed (status ${json.status ?? res.status})`,
-      );
+      return {
+        ok: false,
+        error:
+          json.error?.message ??
+          `Upload failed (status ${json.status ?? res.status})`,
+      };
     }
 
     const d = json.data;
     return {
+      ok: true,
+      result: {
       url: d.url,
       displayUrl: d.display_url,
       viewerUrl: d.url_viewer,
