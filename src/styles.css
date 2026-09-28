@@ -176,5 +176,12 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: "Space Grotesk", system-ui, sans-serif;
+  }
+
+  .font-mono,
+  code,
+  pre {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
   }
 }
