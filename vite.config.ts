@@ -14,5 +14,5 @@ export default defineConfig({
   },
   // Deploy target: Vercel sets VERCEL=1 during builds, so we switch the nitro
   // preset to "vercel" there and keep the default (cloudflare) locally.
-  nitro: process.env.VERCEL ? { preset: "vercel" } : undefined,
+  ...(process.env["VERCEL"] ? { nitro: { preset: "vercel" } } : {}),
 });
